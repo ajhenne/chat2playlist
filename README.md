@@ -1,5 +1,7 @@
 # chat2playlist
 
+https://chat2playlist.streamlit.app
+
 A tool to convert music links within txt files into a playable YouTube playlist. Great for converting chat logs from groups in WhatsApp instantly into a shareable link.
 
 - Simple regex to find all links from an inputted `.txt` file.

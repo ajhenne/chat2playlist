@@ -1,6 +1,9 @@
 import re
+import yt_dlp
+
 
 def extract_urls(text):
+    """Get URLs from a block of text."""
 
     url_pattern = r'(https?://[^\s]+)'
     links = re.findall(url_pattern, text)
@@ -11,8 +14,23 @@ def extract_urls(text):
     return yt_links, other_links
 
 
-def generate_playlist_link(link_list):
+def get_titles(link_list):
+    """Get the YouTube video titles of a list of links."""
 
+    ydl_opts = {'quiet': True, 'extract_flat': True}
+
+    titles = []
+
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        for url in link_list:
+            info = ydl.extract_info(url, download=False)
+            titles.append(info.get('title', 'Unknown'))
+
+    return titles
+
+
+def generate_playlist_link(link_list):
+    """Convert a list of links into a YouTube temporary playlist link."""
     video_ids = []
 
     for url in link_list:
@@ -23,3 +41,54 @@ def generate_playlist_link(link_list):
             video_ids.append(url.split("youtu.be/")[1].split("?")[0])
 
     return f"https://www.youtube.com/watch_videos?video_ids={','.join(video_ids)}"
+
+
+
+
+custom_css = """
+<style>
+.stMainBlockContainer{
+    padding-top: 50px;
+}
+</style>
+"""
+
+footer_css = """
+<style>
+
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    z-index: 999;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+
+.footer a {
+    color: rgb(153, 153, 153);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+
+}
+
+.footer a:hover {
+    text-decoration: underline;
+    color: rgb(255, 197, 138);
+}
+
+</style>
+
+<div class="footer">
+    <a href="https://github.com/ajhenne/chat2playlist" target="_blank">GitHub</a>
+    <a href="https://www.linkedin.com/in/ajhennessy/" target="_blank">LinkedIn</a>
+</div>
+"""

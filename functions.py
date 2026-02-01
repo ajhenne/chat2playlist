@@ -1,6 +1,4 @@
 import re
-import yt_dlp
-
 
 def extract_urls(text):
     """Get URLs from a block of text."""
@@ -14,19 +12,10 @@ def extract_urls(text):
     return yt_links, other_links
 
 
-def get_titles(link_list):
-    """Get the YouTube video titles of a list of links."""
+def search_other_links(link_list):
+    """Search for a YouTube video for links from other sources."""
 
-    ydl_opts = {'quiet': True, 'extract_flat': True}
-
-    titles = []
-
-    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        for url in link_list:
-            info = ydl.extract_info(url, download=False)
-            titles.append(info.get('title', 'Unknown'))
-
-    return titles
+    return []
 
 
 def generate_playlist_link(link_list):
@@ -43,13 +32,16 @@ def generate_playlist_link(link_list):
     return f"https://www.youtube.com/watch_videos?video_ids={','.join(video_ids)}"
 
 
-
-
 custom_css = """
 <style>
 .stMainBlockContainer{
     padding-top: 50px;
 }
+
+.st-emotion-cache-198znwi hr {
+    margin-top: -5px;
+    margin-bottom: 25px;
+    }
 </style>
 """
 

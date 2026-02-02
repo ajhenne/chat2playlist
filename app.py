@@ -5,7 +5,6 @@ import string
 
 from streamlit_javascript import st_javascript
 # from st_copy import copy_button
-
 from functions import link_from_permalink, save_permalink
 from functions import extract_urls, convert_to_youtube, generate_playlist_link
 from functions import custom_css, footer_css
@@ -24,13 +23,9 @@ if "p" in st.query_params:
         st.toast(":green[**SUCCESS:**] Redirecting to YouTube...")
 
         def nav_to(url):
-            nav_script = """
-                <meta http-equiv="refresh" content="0; url='%s'">
-            """ % (url)
-            st.write(nav_script, unsafe_allow_html=True)
+            js = f'window.open("{url}", "_blank").then(r => window.parent.location.href);'
+            st_javascript(js)
 
-        nav_to(playlist_url)
-        
         st.markdown(f"If you are not redirected automatically, [click here]({playlist_url}).")
         
         st.stop()

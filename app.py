@@ -22,6 +22,7 @@ if "p" in st.query_params:
             f'<meta http-equiv="refresh" content="0;url={playlist_url}">',
             unsafe_allow_html=True
         )
+        st.toast(":green[**SUCCESS:**] permalink found")
         st.stop()
     else:
         st.toast(":red[**ERROR**:] Permalink not found or has expired")
